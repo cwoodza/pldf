@@ -1,7 +1,7 @@
 # pldf
 
 ## Overview
- pldf is a framework for working with JavaScript objects as if they were DataFrames. The pldf class allows data to be mainpulated through a range of functions similar to dplyr verbs, which simplifies a number of common data processing tasks. Details of all available functions can be found below.
+ pldf is a framework for working with JavaScript objects as if they were DataFrames. The pldf class allows data to be manipulated through a range of functions similar to dplyr verbs, which simplifies a number of common data processing tasks. Details of all available functions can be found below.
 
  pldf includes built-in support for rendering and updating data in interactive HTML tables, called pldt. However this function is not yet fully implemented and should not be used outside of testing. 
 
@@ -37,9 +37,9 @@ let mydata = {
 let mydf = new pldf(mydata)
 ```
 
-pldf will accept any type of value that can be stored in a JavaScript Object, including functions or other Objects. However, pldf functions are only able to evaluate strings, numbers and booleans. 
+pldf will accept any type of value that can be stored in a JavaScript Object, including functions or other Objects. However, pldf functions are only able to evaluate strings, numbers and Booleans. 
 
-For users looking to include a pldt data table, an optional second arguement accepts an HTML ID reference, which indicates where the table should be rendered. An optional third element allows users to control how the pldt renders, however it is generally recommended to rather make these edits by changing the ```defaultSpec``` object at the top of the pldf.js script.
+For users looking to include a pldt data table, an optional second argument accepts an HTML ID reference, which indicates where the table should be rendered. An optional third element allows users to control how the pldt renders, however it is generally recommended to rather make these edits by changing the ```defaultSpec``` object at the top of the pldf.js script.
 
 ```js
 let mydf = new pldf(mydata, "myid", myspec)
@@ -80,7 +80,7 @@ The filter function removes any values from the pldf that do not meet the specif
 mydf.filter("col1", 3)
 ```
 
-In addition, filter includes a flexible filterFn function that allows for user specified conditions. These conditions should be written as a condition that evaluates up to two values from a set of columns, and returns a boolean.
+In addition, filter includes a flexible filterFn function that allows for user specified conditions. These conditions should be written as a condition that evaluates up to two values from a set of columns, and returns a Boolean.
 
 ```js
 // User specified way to filter for rows with equal values
@@ -97,7 +97,7 @@ mydf.filterLt("col1", 3) // Returns values less than 3
 ```
 
 ### merge
-The merge function combines two pldf by a specified column, matching the order of rows to the values of that column. By default, merge drops rows from the second DataFrame that have values in the evaluation column that are not contained in the first DataFrame's evaluation column. To override this behavior, users can set ```keepy``` to true.
+The merge function combines two pldf by a specified column, matching the order of rows to the values of that column. By default, merge drops rows from the second DataFrame that have values in the evaluation column that are not contained in the first DataFrame's evaluation column. To override this behaviour, users can set ```keepy``` to true.
 
 ```js
 mydf.merge(otherpldf, "col1", "col2", true)
