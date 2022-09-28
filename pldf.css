@@ -1,0 +1,69 @@
+.pldt{
+    table-layout: fixed;
+    border:1px solid #28487A;
+    border-radius: 2x;
+    margin:10px;
+
+    font:#8d99ae;
+    font-family:'Roboto', sans-serif;
+}
+
+.pldt tr:first-child{
+    background-color: #EDF2FB;
+}
+
+.pldt tr:last-child{
+    background-color: white;
+}
+
+.pldt tr:hover{
+    background-color: #F9FBFE;
+}
+
+.pldt th{
+    background-color: #EDF2FB;
+    padding: 5px 10px 5px 10px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.pldt td{
+    padding: 3px 5px 3px 5px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.pldt .ControlRow{
+    text-align: right;
+}
+
+.ControlRow td{
+    padding-top:10px;
+    filter:opacity(0.8);
+}
+
+.ControlRow:hover td{
+    filter:opacity(1);    
+}
+
+.ControlButtonHolder{
+    display:inline;
+    max-width:60%;
+    overflow:hidden;
+}
+
+.ControlButton {
+    font-family:'Roboto', sans-serif;
+    font-size:12px;
+    display:inline-block;
+    padding: 3px 10px;
+    margin: 0 2px 0 2px;
+    border: 1px solid #c0cbdc;
+    background-color: #EDF1F7;
+    color: #495057;
+    cursor:pointer;
+}
+
+.ControlButton:hover{
+    background-color:#DFE6F1;
+}
