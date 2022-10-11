@@ -278,20 +278,24 @@ class pldf {
 
     remove(arrayofcols){
         for (let i = 0; i < arrayofcols.length; i++) {
-            delete this.data[arrayofcols[i]];
+            if(arrayofcols[i] in this.data){
+                delete this.data[arrayofcols[i]];
+                this.update();
+            }
         }
-        this.update();
     }
 
     rename(curname, newname){
-        this.data[newname] = this.data[curname];
-        delete this.data[curname];
-        this.update();
+        if(curname in this.data){
+            this.data[newname] = this.data[curname];
+            delete this.data[curname];
+            this.update();
+        }
     }
 
     renameAll(curarray, newarray){
         for (let i = 0; i < curarray.length; i++) {
-            if(newarray[i] !== curarray[i]){
+            if(curarray[i] in this.data && newarray[i] !== curarray[i]){
                 this.data[newarray[i]] = this.data[curarray[i]];
                 delete this.data[curarray[i]];
             }
