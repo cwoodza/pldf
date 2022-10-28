@@ -171,9 +171,9 @@ mydf.slice(1, 3)
 The summarise function works similarly to a Pivot table, reducing the pldf to unique values in the specified groupby array, and adding, averaging or counting the values in the specified column.
 
 ```js
-mydf.slice(["col2", "col3"], "col1", "sum")
-mydf.slice(["col2", "col3"], "col1", "mean")
-mydf.slice(["col2", "col3"], "col1", "count")
+mydf.summarise(["col2", "col3"], "col1", "sum")
+mydf.summarise(["col2", "col3"], "col1", "mean")
+mydf.summarise(["col2", "col3"], "col1", "count")
 ```
 
 At present, summarise only has the three functions shown above - sum, mean, and count - however a function with a user-specified input will be added at a later stage.

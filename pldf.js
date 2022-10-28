@@ -1,4 +1,4 @@
-/*------------------------------------ pldf 0.2.0 ------------------------------------*/
+/*------------------------------------ pldf 0.2.2 ------------------------------------*/
 
 /* --------------- 1. User defaults ---------------- */
 
@@ -280,8 +280,8 @@ class pldf {
         for (let i = 0; i < arrayofcols.length; i++) {
             if(arrayofcols[i] in this.data){
                 delete this.data[arrayofcols[i]];
-                this.update();
             }
+            this.update();
         }
     }
 
@@ -650,5 +650,23 @@ function prep_JSONarray(jsonarray, whichkeys){
             restructured[whichkeys[j]].push(jsonarray[i][whichkeys[j]])
         }
     }
+    return restructured
+}
+
+function prep_NamedObjects(original){
+    let namekeys = Object.keys(original);
+    let objkeys = Object.keys(original[namekeys[0]]);
+
+    let restructured = {};
+    for (let i = 0; i < objkeys.length; i++) {
+        restructured[objkeys[i]] = [];
+    }
+
+    for (let i = 0; i < namekeys.length; i++) {
+        for (let j = 0; j < objkeys.length; j++) {
+            restructured[objkeys[j]].push(original[namekeys[i]][objkeys[j]]);
+        }
+    }
+
     return restructured
 }
