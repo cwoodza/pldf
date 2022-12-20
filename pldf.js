@@ -1,4 +1,4 @@
-/*------------------------------------ pldf 0.2.2 ------------------------------------*/
+/*------------------------------------ pldf 0.3.0 ------------------------------------*/
 
 /* --------------- 1. User defaults ---------------- */
 
@@ -396,8 +396,61 @@ class pldf {
         }
     }
 
+    widen(ref, names, values, sort=null){
+        // Get unique values from the ref column
+        let rebuild = {};
+        let uq_cols = [];
+        for (let i = 0; i < this.data[ref].length; i++) {
+            if(!(this.data[ref][i] in rebuild)){
+                rebuild[this.data[ref][i]] = {};
+                if(sort !== null){
+                    rebuild[this.data[ref][i]][sort] = this.data[sort][i];
+                }
+            }
+            if(!(uq_cols.includes(this.data[names][i]))){
+                uq_cols.push(this.data[names][i]);
+            }
+        }
+
+        // Allocate names and values
+        for (let i = 0; i < this.data[values].length; i++) {
+            rebuild[this.data[ref][i]][this.data[names][i]] = this.data[values][i];
+        }
+
+        // Build the new structure
+        let restructure = {};
+        restructure[ref] = [];
+        if(sort !== null){
+            restructure[sort] = [];
+        }
+        for (let i = 0; i < uq_cols.length; i++) {
+            restructure[uq_cols[i]] = [];
+        }
+
+        // Restructure to pldf standard format
+        let refkeys = Object.keys(rebuild);
+        for (let i = 0; i < refkeys.length; i++) {
+            restructure[ref].push(refkeys[i]);
+            if(sort !== null){
+                restructure[sort].push(rebuild[refkeys[i]][sort]);
+            }
+            for (let j = 0; j < uq_cols.length; j++) {
+                if(uq_cols[j] in rebuild[refkeys[i]]){
+                    restructure[uq_cols[j]].push(rebuild[refkeys[i]][uq_cols[j]]);
+                } else {
+                    restructure[uq_cols[j]].push(0);
+                }
+            }
+        }
+
+        // Update data and finish
+        this.data = restructure;
+        this.update();
+    }
+
     clone(renderid=null){
-        return (new pldf(this.data, renderid, this.renderspec))
+        let deepclone = structuredClone(this)
+        return (new pldf(deepclone.data, renderid, deepclone.renderspec))
     }
 
     toCSV(filename="pldf_download.csv"){
@@ -639,8 +692,11 @@ function indexObj(whichobj, whicharray){
 
 /* --------------- 5. Data prep functions ---------------- */
 
-function prep_JSONarray(jsonarray, whichkeys){
+function prep_JSONarray(jsonarray, whichkeys=null){
     let restructured = {};
+    if(whichkeys === null){
+        whichkeys = Object.keys(jsonarray[0]);
+    }
     for (let i = 0; i < whichkeys.length; i++) {
         restructured[whichkeys[i]] = [];
     }

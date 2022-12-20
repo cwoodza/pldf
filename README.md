@@ -178,6 +178,17 @@ mydf.summarise(["col2", "col3"], "col1", "count")
 
 At present, summarise only has the three functions shown above - sum, mean, and count - however a function with a user-specified input will be added at a later stage.
 
+### widen
+The widen function is used to convert text in a given column to column headers, and populate these columns with their associated values. 
+
+Widen accepts three inputs: a reference column, which remains a single column against which the names and values are assigned; a names column, unique values from which are used as the names of subsequent columns; a values column, which is used to populate these names columns; and an optional sort column, which is normally linked to the reference column (for example, as a numeric reference for a set of dates).
+
+```js
+mydf.widen("date", "name", "value", "datesort");
+```
+
+Note that missing values are assigned a value of zero, not NA. Widen removes all other columns from the df.
+
 ## pldt functions
 pldt is an interactive HTML table that updates as changes are made to the pldf object. pldt is currently in development and additional information will be added at a later date.
 
@@ -185,16 +196,31 @@ pldt is an interactive HTML table that updates as changes are made to the pldf o
 Additional helper functions, particularly to assist with preparing data before passing it to a pldf, will be added in future updates. 
 
 ### prep_JSONarray
-The prep_JSONarray function works converts data structured as an array of JSON objects, into data that is suitably structured for a pldf. Users should specify which keys from the Objects in the array should be used as column headers in their new pldf.
+The prep_JSONarray function  converts data structured as an array of JSON objects, into data that is suitably structured for a pldf. Users should specify which keys from the Objects in the array should be used as column headers in their new pldf. If a keys value is not provided, the function will try to use the keys found in the first object in the array.
 
 ```js
 let rawdata = [
     {"col1":1, "col2":"One", "col3":true},
     {"col1":2, "col2":"Two", "col3":true},
-    {"col1":3, "col2":"Three", "col3":false},
+    {"col1":3, "col2":"Three", "col3":false}
 ]
 
 let mydata = prep_JSONarray(rawdata, ["col1", "col2", "col3"]);
+
+let mydf = new pldf(mydata)
+```
+
+### prep_NamedObjects
+The prep_NamedObjects function converts data structured as an object of JSON objects, into data that is suitably structured for a pldf. 
+
+```js
+let rawdata = {
+    "One": {"col1":1, "col2":true},
+    "Two": {"col1":2, "col2":true},
+    "Three": {"col1":3, "col2":false}
+}
+
+let mydata = prep_NamedObjects(rawdata);
 
 let mydf = new pldf(mydata)
 ```
