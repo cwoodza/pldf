@@ -20,6 +20,7 @@
     9. [select](#select)
     10. [slice](#slice)
     11. [summarise](#summarise)
+    12. [widen](#widen)
 4. [pldt functions](#pldt-functions)
 5. [Helper functions](#helper-functions)
 
