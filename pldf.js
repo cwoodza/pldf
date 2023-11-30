@@ -448,6 +448,46 @@ class pldf {
         this.update();
     }
 
+    widenMulti(ref, names, values, sort=null){
+        // 1. Add a reference column with all values seperated by four forward-slashes
+        let working = this.clone();
+        let refcol = [];
+        for (let i = 0; i < working["data"][ref[0]].length; i++) {
+            let newval = "";
+            for (let j = 0; j < ref.length; j++) {
+                newval += working["data"][ref[j]][i];
+                if(j+1 !== ref.length){
+                    newval += "////";
+                }
+            }
+            refcol.push(newval);
+        }
+        working["data"]["pldfsr"] = refcol; // pldf special reference
+        
+        // 2. Call widen
+        working.widen("pldfsr", names, values, sort);
+
+        // 3. Rebuilt columns
+        for (let i = 0; i < working["data"]["pldfsr"].length; i++) {
+            let vals = working["data"]["pldfsr"][i].split("////"); // Split to array
+            for (let j = 0; j < vals.length; j++) {
+                if(i === 0){
+                    working["data"][ref[j]] = [];
+                }
+                working["data"][ref[j]].push(vals[j]);
+            }
+        }
+
+        // 4. Remove pldfsr and update value
+        delete working["data"]["pldfsr"];
+        this.data = working["data"];
+
+        // 4. Complete and render if selected
+        if (this.render != null){
+            this.render.update(this.data);
+        }
+    }
+
     clone(renderid=null){
         let deepclone = structuredClone(this)
         return (new pldf(deepclone.data, renderid, deepclone.renderspec))

@@ -188,7 +188,11 @@ Widen accepts three inputs: a reference column, which remains a single column ag
 mydf.widen("date", "name", "value", "datesort");
 ```
 
-Note that missing values are assigned a value of zero, not NA. Widen removes all other columns from the df.
+Note that missing values are assigned a value of zero, not NA. Widen removes all other columns from the df. The base widen is only anchored by a single reference column. In order to wideb by multiple columns, use widenMulti.
+
+```js
+mydf.widenMulti(["date", "measure"], "name", "value", "datesort");
+```
 
 ## pldt functions
 pldt is an interactive HTML table that updates as changes are made to the pldf object. pldt is currently in development and additional information will be added at a later date.
