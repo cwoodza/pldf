@@ -30,6 +30,9 @@ class pldf {
                 "value":this.data[whichcol][i],
                 "index":i
             }
+            if(this.data[whichcol][i] === undefined){
+                indexed["value"] = null
+            }
             getRefArray.push(indexed);
         }
 
@@ -530,6 +533,27 @@ class pldf {
         document.body.appendChild(exp);
         exp.click();
         exp.remove();
+    }
+
+    toXlsxRows(col_order = null){
+        let self = this;
+        let headers = Object.keys(self["data"]);
+        if(col_order !== null){
+            headers = col_order
+        }
+        let output = [];
+        for (let i = 0; i < self.data[headers[0]].length; i++) {
+            let this_row = {};
+            for (let j = 0; j < headers.length; j++) {
+                let val = self.data[headers[j]][i];
+                if(val === undefined){
+                    val = null
+                }
+                this_row[headers[j]] = val;
+            }
+            output.push(this_row);
+        }
+        return(output)
     }
 
     update(){
